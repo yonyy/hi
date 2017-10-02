@@ -5,6 +5,7 @@ const program = require('commander');
 const colors = require('colors/safe');
 const pkg = require('./package.json');
 const git = require('./git');
+const hi = require('./hi');
 
 program
     .version(pkg.version)
@@ -28,4 +29,5 @@ const branches = git.getBranches(program.remote)
 
 Promise.all([branches]).then(values => {
     let [branches] = values;
+    return hi.describe(branches);
 });

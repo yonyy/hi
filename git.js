@@ -2,6 +2,10 @@ const _ = require('lodash');
 const { exec } = require('child_process');
 const GIT_BRANCH = 'git branch';
 
+const branchObj = (branch, active = false) => {
+    return { branch, active };
+}
+
 const git = {
     getBranches: function(remote) {
         return new Promise((resolve, reject) => {
@@ -20,15 +24,15 @@ const git = {
                     }
                     return reject({ message });
                 }
-                return resolve(this.parseBranches(stdout));
+                return resolve(this.parseBranches(stdout.trim()));
             });
         });
     },
     parseBranches: function(branchStr) {
         const strip = (branch) => {
             if (_.startsWith(branch, '*'))
-                return branch.substring(1);
-            return branch;
+                return branchObj(branch.substring(2), true);
+            return branchObj(branch);
         };
 
         return _.chain(branchStr)
