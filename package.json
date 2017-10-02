@@ -1,0 +1,31 @@
+{
+  "name": "sn-branch",
+  "version": "1.0.0",
+  "description": "A command line tool for making it easier to know what PRB your branch relates to.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yonyy/sn-branch.git"
+  },
+  "bin": {
+    "snbranch": "./index.js"
+  },
+  "keywords": [
+    "branch",
+    "prb"
+  ],
+  "author": "Yonatan Perez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yonyy/sn-branch/issues"
+  },
+  "homepage": "https://github.com/yonyy/sn-branch#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.11.0",
+    "lodash": "^4.17.4"
+  }
+}
