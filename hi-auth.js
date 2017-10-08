@@ -4,7 +4,7 @@
 const program = require('commander');
 const colors = require('colors');
 const pkg = require('./package.json');
-const auth = require('./auth');
+const auth = require('./utils/auth');
 
 colors.setTheme({
     error: 'red',

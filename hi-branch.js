@@ -4,8 +4,8 @@
 const program = require('commander');
 const colors = require('colors');
 const pkg = require('./package.json');
-const git = require('./git');
-const hi = require('./hi');
+const git = require('./utils/git');
+const hi = require('./utils/hi');
 
 colors.setTheme({
     error: 'red',

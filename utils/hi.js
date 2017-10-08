@@ -45,12 +45,16 @@ const hi = {
                         qs: {
                             sysparm_search: prb,
                             sysparm_groups: TASK
-                        },
-                        auth: {
-                            username: config.username,
-                            password: config.password
                         }
                     }
+
+                    if (config.username && config.password)
+                        options.auth = {
+                            username: config.username,
+                            password: config.password
+                        };
+                    else
+                        options.headers = { 'Cookie' : config.cookie };
 
                     return request(options, (err, res, body) => {
                         var parsedBody = JSON.parse(body);
