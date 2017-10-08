@@ -8,7 +8,8 @@ const git = require('./git');
 const hi = require('./hi');
 
 colors.setTheme({
-    error: 'red'
+    error: 'red',
+    info: 'green'
 });
 
 program
@@ -17,9 +18,5 @@ program
     .parse(process.argv);
 
 git.getBranches(program.remote)
-    .then(branches => {
-        hi.describe(branches);
-    })
-    .catch((err) => {
-        console.log('%s %s', colors.error('Error:'), err.message);
-    });
+    .then(hi.describe)
+    .catch(err => console.log('%s %s', colors.error('Error:'), err));
