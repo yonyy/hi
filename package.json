@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/yonyy/sn-branch.git"
+    "url": "git+ssh://git@github.com:yonyy/hi.git"
   },
   "bin": {
     "hi": "./index.js"
