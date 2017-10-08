@@ -2,15 +2,7 @@
 'use strict';
 
 const program = require('commander');
-const colors = require('colors');
 const pkg = require('./package.json');
-const auth = require('./auth');
-const git = require('./git');
-const hi = require('./hi');
-
-colors.setTheme({
-    error: 'red'
-});
 
 program
     .version(pkg.version)
