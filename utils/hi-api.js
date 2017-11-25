@@ -13,7 +13,7 @@ colors.setTheme({
 });
 
 const prettyDisplay = (description) => {
-    var branch = (description.active) ? colors.info(_.join(['*', description.branch], ' ')) : description.branch
+    var branch = (description.active) ? colors.info(['*', description.branch].join(' ')) : description.branch
     console.log('%s - %s', branch, description.label);
 }
 
@@ -21,27 +21,34 @@ const infoObj = (task, label = 'No STRY/PRB/INT attached to this branch') => {
     return Object.assign(task, { label });
 }
 
-const taskObj = (branch, task = null) => {
-    return Object.assign(branch, {task});
+const taskObj = (branch, task = null, table = null) => {
+    return Object.assign(branch, {task, table});
 }
 
 const getRecord = (branchObj) => {
     let task = branchObj.branch.match(/(PRB[\d]+)/g);
-    if (!task)
+    let table = PRB;
+
+    if (!task) {
         task = branchObj.branch.match(/(STRY[\d]+)/g);
-    if (!task)
+        table = STRY;
+    }
+
+    if (!task) {
         task = branchObj.branch.match(/(INT[\d]+)/g);
+        table = INT;
+    }
 
     if (!task)
         return taskObj(branchObj);
 
-    return taskObj(branchObj, task[0]);
+    return taskObj(branchObj, task[0], table);
 }
 
 const hi = {
     sendAjax: function (taskObj) {
         return new Promise((resolve, reject) => {
-            var { task } = taskObj
+            var { task, table } = taskObj
             if (!task)
                 return resolve(infoObj(taskObj));
 
@@ -66,7 +73,10 @@ const hi = {
                         if (parsedBody.error)
                             return reject(parsedBody.error.message);
 
-                        var records = parsedBody.result.groups[0].search_results.filter(v => v.name === PRB)[0].records;
+                        var records = parsedBody.result.groups[0]
+                                    .search_results
+                                    .filter(v => v.name === table)[0]
+                                    .records;
 
                         if (!records)
                             return resolve(infoObj(taskObj));
@@ -82,11 +92,11 @@ const hi = {
     },
     describe: function(branches) {
         return new Promise(function(resolve, reject) {
-            var tasks = _.map(branches, getRecord);
-            var info = _.map(tasks, hi.sendAjax);
+            var tasks = branches.map(getRecord);
+            var info = tasks.map(hi.sendAjax);
             Promise.all(info)
                 .then(descriptions => {
-                    _.forEach(descriptions, description => {
+                    descriptions.forEach(description => {
                         prettyDisplay(description);
                     });
                     resolve();
