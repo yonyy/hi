@@ -1,6 +1,6 @@
-const _ = require('lodash');
 const { exec } = require('child_process');
 const GIT_BRANCH = 'git branch';
+const GIT_CONFIG = 'git config';
 
 const branchObj = (branch, active = false) => {
     return { branch, active };
@@ -44,7 +44,7 @@ const git = {
                     let [activeBranch] =  stdout
                                         .split('\n')
                                         .filter(branch => branch.substring(0,1) === '*')
-                    resolve(activeBranch);
+                    resolve(activeBranch.substring(2));
                })
                .catch(reject);
         });

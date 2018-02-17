@@ -5,7 +5,7 @@ const program = require('commander');
 const colors = require('colors');
 const pkg = require('./package.json');
 const git = require('./utils/git');
-const hi = require('./utils/hi-api');
+const branch = require('./utils/branch');
 
 colors.setTheme({
     error: 'red',
@@ -15,9 +15,8 @@ colors.setTheme({
 program
     .version(pkg.version)
     .option('-r, --remote', 'List the remote-tracking branches')
-    .option('-m, --message', 'Set descriptive message for the current branch')
     .parse(process.argv);
 
 git.getBranchObjs(program.remote)
-    .then(hi.describe)
+    .then(branch.describe)
     .catch(err => console.log('%s %s', colors.error('Error:'), err));
