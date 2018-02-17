@@ -1,7 +1,7 @@
 {
-  "name": "hi",
+  "name": "servicenow-hitool",
   "version": "1.0.0",
-  "description": "A command line tool for making it easier to know what PRB your branch relates to.",
+  "description": "A CLI for ServiceNow employees that makes it easier know what PRB your scratch branch relates to.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,7 +15,9 @@
   },
   "keywords": [
     "branch",
-    "prb"
+    "prb",
+    "hi",
+    "servicenow"
   ],
   "author": "Yonatan Perez",
   "license": "ISC",
