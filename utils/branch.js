@@ -5,13 +5,20 @@ const STRY = 'story';
 const INT = 'incident';
 
 colors.setTheme({
-    info: 'green'
+    info: 'green',
+    remote: 'red'
 });
 
 const branch = {
-    prettyDisplay: function(description) {
-        var branch = (description.active) ? colors.info(['*', description.branch].join(' ')) : ['  ', description.branch].join('');
-        console.log('%s - %s', branch, description.label);
+    prettyDisplay: function(infoObj) {
+        var branch = null;
+        if (infoObj.remote) {
+            branch = colors.remote(['  ', infoObj.branch].join(''));
+        } else {
+            branch = (infoObj.active) ? colors.info(['*', infoObj.branch].join(' ')) : ['  ', infoObj.branch].join('');
+        }
+
+        console.log('%s - %s', branch, infoObj.label);
     },
     createInfoObj: function(task, label = 'No STRY/PRB/INT attached to this branch') {
         return Object.assign(task, { label });

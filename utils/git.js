@@ -2,8 +2,8 @@ const { exec } = require('child_process');
 const GIT_BRANCH = 'git branch';
 const GIT_CONFIG = 'git config';
 
-const branchObj = (branch, active = false) => {
-    return { branch, active };
+const branchObj = (branch, active = false, remote = false) => {
+    return { branch, active, remote };
 }
 
 const git = {
@@ -59,15 +59,16 @@ const git = {
     getBranchObjs: function(remote) {
         return new Promise(function(resolve, reject) {
             git.getBranches(remote)
-               .then(branchStr => resolve(git.parseBranches(branchStr)))
+               .then(branchStr => resolve(git.parseBranches(branchStr, remote)))
                .catch(reject)
         });
     },
-    parseBranches: function(branchStr) {
+    parseBranches: function(branchStr, remote) {
         const strip = (branch) => {
+            branch = branch.trim();
             if (branch.substring(0,1) === '*')
-                return branchObj(branch.substring(2), true);
-            return branchObj(branch);
+                return branchObj(branch.substring(2), true, remote);
+            return branchObj(branch, false, remote);
         };
 
         return branchStr
