@@ -20,7 +20,7 @@ const branch = {
 
         console.log('%s - %s', branch, infoObj.label);
     },
-    createInfoObj: function(task, label = 'No STRY/PRB/INT attached to this branch') {
+    createInfoObj: function(task, label = 'No PRB/INT attached to this branch') {
         return Object.assign(task, { label });
     },
     createTaskObj: function(branch, task = null, table = null) {
@@ -29,11 +29,6 @@ const branch = {
     findTask: function(branchObj) {
         let task = branchObj.branch.match(/(PRB[\d]+)/g);
         let table = PRB;
-
-        if (!task) {
-            task = branchObj.branch.match(/(STRY[\d]+)/g);
-            table = STRY;
-        }
 
         if (!task) {
             task = branchObj.branch.match(/(INT[\d]+)/g);
