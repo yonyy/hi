@@ -3,7 +3,7 @@
 `hi` uses the available APIs and git commands to display your branches and a PRB's short description to your console. The goal is to make it easier to map scratch branches to PRBs.
 
 ## Installation (Pending)
-`npm install servicenow-hitool`
+`npm install -g sn-hi`
 
 ## How to use
 - Run the command `hi auth` and provide your HI credentials. The credentials are stored in base64-encoding and in a configuration file.
@@ -19,7 +19,7 @@ yonatanperez@Yonatans-MacBook-Pro hi $ hi branch
 ```
 
 ## Goals
-- Add support for STRYs
+- Add support for STRYs and TASKs.
 - Provide a command to set a custom short description for a branch to minimize requests
 - Add tests
 - Add badge to repo
