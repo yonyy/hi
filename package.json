@@ -1,5 +1,5 @@
 {
-  "name": "servicenow-hitool",
+  "name": "sn-hi",
   "version": "1.0.0",
   "description": "A CLI for ServiceNow employees that makes it easier know what PRB your scratch branch relates to.",
   "main": "index.js",
