@@ -11,6 +11,7 @@ const api = {
                 return resolve(null);
 
             auth.readAuth()
+                .then(auth.decryptAuth)
                 .then(config => {
                     var options = {
                         url: HI_URL,
