@@ -1,50 +1,47 @@
 const request = require('request');
 const auth = require('./auth');
-const HI_URL = 'https://hi.service-now.com/api/now/globalsearch/search';
-const TASK = '8c58a5aa0a0a0b07008047e8ef0fe07d';
+const BT1_URL =
+	'https://buildtools1.service-now.com/api/now/globalsearch/search';
+const PRB_URL =
+	'https://buildtools1.service-now.com/api/now/globalsearch/search';
 
 const api = {
-  sendGlobalSearchRequest: function(taskObj) {
-    return new Promise((resolve, reject) => {
-      const { task, table } = taskObj;
-      if (!task) return resolve(null);
+	urls: function() {
+		return {
+			BT1_URL,
+			PRB_URL
+		};
+	},
+	sendGlobalSearchRequest: function(taskObj, options) {
+		const { url, queryParams, responseHandler } = options;
 
-      auth
-        .readAuth()
-        .then(auth.decryptAuth)
-        .then(config => {
-          const options = {
-            url: HI_URL,
-            qs: {
-              sysparm_search: task,
-              sysparm_groups: TASK
-            },
-            headers: {
-              Authorization: 'Basic ' + config.auth
-            }
-          };
+		return new Promise((resolve, reject) => {
+			const { task } = taskObj;
+			if (!task) return resolve(null);
 
-          return request(options, (err, res, body) => {
-            const parsedBody = JSON.parse(body);
-            if (err) return reject(err.message);
+			auth.readAuth()
+				.then(config => {
+					const options = {
+						url,
+						qs: queryParams,
+						headers: {
+							Authorization: 'Basic ' + config.auth
+						}
+					};
 
-            if (parsedBody.error) return reject(parsedBody.error.message);
+					return request(options, (err, _, body) => {
+						const parsedBody = JSON.parse(body);
+						if (err) return reject(err.message);
 
-            const records = parsedBody.result.groups[0].search_results.filter(
-              v => v.name === table
-            )[0].records;
+						if (parsedBody.error)
+							return reject(parsedBody.error.message);
 
-            if (!records) return resolve(null);
-
-            const record = records.filter(r => r.data.number.value === task)[0];
-            const label = record.metadata.title;
-
-            return resolve(label);
-          });
-        })
-        .catch(reject);
-    });
-  }
+						return resolve(responseHandler(parsedBody));
+					});
+				})
+				.catch(reject);
+		});
+	}
 };
 
 module.exports = api;
